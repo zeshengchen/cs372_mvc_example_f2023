@@ -1,0 +1,28 @@
+<div class="jumbotron text-center">
+    <h1>All Posts</h1>
+</div>
+
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <th>Post Name</th>
+        <th>Description</th>
+        <th></th>
+    </thead>
+    <tbody>
+
+        <% for (var post of posts) { %>
+            <tr>
+                <td>
+                    <%= post.name %>
+                </td>
+                <td>
+                    <%= post.description %>
+                </td>
+                <td>
+                    <a href="/posts/<%= post.slug %>" class="btn btn-sm btn-primary">View</a>
+                </td>
+            </tr>
+        <% } %>
+
+    </tbody>
+</table>
