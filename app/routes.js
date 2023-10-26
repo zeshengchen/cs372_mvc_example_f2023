@@ -11,6 +11,9 @@ module.exports = router
 // main routes
 router.get('/', mainController.showHome)
 
+// seed events
+router.get('/posts/seed', postController.seedPosts)
+
 // post routes
 router.get('/posts', postController.showPosts)
 router.get('/posts/:slug', postController.showSingle)

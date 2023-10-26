@@ -13,7 +13,7 @@ const postSchema = new Schema({
 
 // middleware section
 // make sure that the slug is created from the name
-postSchema.pre('save', (next) => {
+postSchema.pre('save', function(next) {
     this.slug = slugify(this.name)
     next()
 })
