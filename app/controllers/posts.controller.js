@@ -1,3 +1,5 @@
+const Post = require('../models/post')
+
 module.exports = {
     
     // show all posts
