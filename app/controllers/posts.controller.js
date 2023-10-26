@@ -11,5 +11,13 @@ module.exports = {
 
       // return a view with data
       res.render('pages/posts', { posts: posts });
-    }
+    },
+
+    // show a single post
+    showSingle: (req, res) => {
+        // get a single post
+        const post = { name: 'Homework', slug: 'homework', description: 'Homework is challenging!'};
+        
+        res.render('pages/single', {post: post});
+    } 
 }

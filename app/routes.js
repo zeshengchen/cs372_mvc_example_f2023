@@ -13,3 +13,4 @@ router.get('/', mainController.showHome)
 
 // post routes
 router.get('/posts', postController.showPosts)
+router.get('/posts/:slug', postController.showSingle)
