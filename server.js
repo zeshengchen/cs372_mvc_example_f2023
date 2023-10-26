@@ -6,9 +6,10 @@ const express = require('express'),
     port = process.env.PORT || 8080 
 
 // configure our application
+require('dotenv').config()
 
 // connect to our database
-mongoose.connect('mongodb://127.0.0.1:27017/cs372-posts')
+mongoose.connect(process.env.DB_URI)
     .then(() => console.log('DB connected!'))
     .catch(() => {
         console.log('Cannot connect to MongoDB!')
