@@ -28,6 +28,8 @@ module.exports = {
         ]
 
         // use the Post model to insert/save
+        await Post.deleteMany({})
+        
         for (post of posts) {
             let newPost = new Post(post)
             await newPost.save()
