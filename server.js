@@ -4,10 +4,23 @@ const express = require('express'),
     expressLayouts = require('express-ejs-layouts'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
-    port = process.env.PORT || 8080 
+    session = require('express-session'),
+    cookieParser = require('cookie-parser'),
+    flash = require('connect-flash'),
+    port = process.env.PORT || 8080
 
 // configure our application
 require('dotenv').config()
+
+// set sessions and cookie parser
+app.use(cookieParser())
+app.use(session({
+  secret: process.env.SECRET,
+  cookie: {maxAge: 60000},
+  resave: false, // forces the session to be saved back to the store
+  saveUninitialized: false // dont save unmodified
+}))
+app.use(flash())
 
 // connect to our database
 mongoose.connect(process.env.DB_URI)
