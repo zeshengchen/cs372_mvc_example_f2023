@@ -20,5 +20,8 @@ router.get('/posts', postsController.showPosts)
 // create posts
 router.get('/posts/create', postsController.showCreate)
 router.post('/posts/create', postsController.processCreate)
+// edit posts
+router.get('/posts/:slug/edit', postsController.showEdit)
+router.post('/posts/:slug', postsController.processEdit)
 
 router.get('/posts/:slug', postsController.showSingle)

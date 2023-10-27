@@ -6,7 +6,9 @@ module.exports = {
     showSingle: showSingle,
     seedPosts: seedPosts,
     showCreate: showCreate,
-    processCreate: processCreate
+    processCreate: processCreate,
+    showEdit: showEdit,
+    processEdit: processEdit
 }
 
 /** 
@@ -18,7 +20,10 @@ async function showPosts(req, res) {
         posts = await Post.find({})
 
         // return a view with data
-        res.render('pages/posts', { posts: posts })
+        res.render('pages/posts', {
+            posts: posts,
+            success: req.flash('success')
+        })
 
     } catch {
         res.status(404)
@@ -109,6 +114,57 @@ async function processCreate(req, res) {
         // set a successful flash message
         req.flash('success', 'Successfuly created post!')
         res.redirect(`/posts/${post.slug}`)
+    } catch {
+        res.status(500)
+        res.send('Post not saved!')
+    }
+}
+
+/**
+ * Show the edit form
+ */
+async function showEdit(req, res) {
+    try {
+        const post = await Post.findOne({ slug: req.params.slug })
+        res.render('pages/edit', {
+            post: post,
+            errors: req.flash('errors')
+        })
+    } catch {
+        res.status(404)
+        res.send('Post not found!')
+    }
+}
+
+/** 
+ * Process the eidt form
+ */
+async function processEdit(req, res) {
+    // validate information
+    await check('name', 'Name is required').notEmpty().run(req)
+    await check('description', 'Description is required').notEmpty().run(req)
+
+    // if there are errors, redirect and save errors to flash
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        req.flash('errors', errors.errors.map(err => err.msg))
+        return res.redirect(`/posts/${req.params.slug}/edit`)
+    }
+
+    // finding a current post 
+    try {
+        const post = await Post.findOne({ slug: req.params.slug })
+
+        // updating the post
+        post.name = req.body.name
+        post.description = req.body.description
+
+        await post.save()
+
+        // success flash message
+        // redirect back to the /posts
+        req.flash('success', 'Successfully updated post.')
+        res.redirect('/posts')
     } catch {
         res.status(500)
         res.send('Post not saved!')
