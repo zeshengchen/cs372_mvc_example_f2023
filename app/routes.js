@@ -2,7 +2,7 @@
 const express = require('express'),
     router = express.Router(),
     mainController = require('./controllers/main.controller'),
-    postController = require('./controllers/posts.controller')
+    postsController = require('./controllers/posts.controller')
 
 // export reroutes
 module.exports = router 
@@ -12,8 +12,13 @@ module.exports = router
 router.get('/', mainController.showHome)
 
 // seed events
-router.get('/posts/seed', postController.seedPosts)
+router.get('/posts/seed', postsController.seedPosts)
 
 // post routes
-router.get('/posts', postController.showPosts)
-router.get('/posts/:slug', postController.showSingle)
+router.get('/posts', postsController.showPosts)
+
+// create posts
+router.get('/posts/create', postsController.showCreate)
+router.post('/posts/create', postsController.processCreate)
+
+router.get('/posts/:slug', postsController.showSingle)

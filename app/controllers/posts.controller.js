@@ -3,7 +3,9 @@ const Post = require('../models/post')
 module.exports = {
     showPosts: showPosts,
     showSingle: showSingle,
-    seedPosts: seedPosts
+    seedPosts: seedPosts,
+    showCreate: showCreate,
+    processCreate: processCreate
 }
 
 /** 
@@ -31,7 +33,7 @@ async function showSingle(req, res) {
     try {
         post = await Post.findOne({ slug: req.params.slug })
 
-        if (post !== undefined && post !== null )
+        if (post !== undefined && post !== null)
             res.render('pages/single', { post: post })
         else {
             res.status(404)
@@ -64,4 +66,31 @@ async function seedPosts(req, res) {
 
     // seeded!
     res.send('Database seeded!')
+}
+
+/**
+ * Show the create form
+ */
+function showCreate(req, res) {
+    res.render('pages/create')
+}
+
+/**
+ * Process the creation form
+ */
+async function processCreate(req, res) {
+    // create a new post
+    const post = new Post({
+        name: req.body.name,
+        description: req.body.description
+    })
+
+    // save post 
+    try {
+        await post.save()
+        res.redirect(`/posts/${post.slug}`)
+    } catch {
+        res.status(500)
+        res.send('Post not saved!')
+    }
 }

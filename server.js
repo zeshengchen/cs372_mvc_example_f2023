@@ -3,6 +3,7 @@ const express = require('express'),
     app = express(),
     expressLayouts = require('express-ejs-layouts'),
     mongoose = require('mongoose'),
+    bodyParser = require('body-parser'),
     port = process.env.PORT || 8080 
 
 // configure our application
@@ -15,6 +16,9 @@ mongoose.connect(process.env.DB_URI)
         console.log('Cannot connect to MongoDB!')
         process.exit(1)
     })
+
+// use body parser to grab info from a form
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(express.static(__dirname + '/public'))
 
