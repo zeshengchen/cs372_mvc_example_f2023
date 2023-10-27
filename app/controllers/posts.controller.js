@@ -9,21 +9,38 @@ module.exports = {
 /** 
  * show all posts
  */
-function showPosts(req, res) {
+async function showPosts(req, res) {
     // get all posts
+    try {
+        posts = await Post.find({})
 
-    // return a view with data
-    res.render('pages/posts', { posts: posts })
+        // return a view with data
+        res.render('pages/posts', { posts: posts })
+
+    } catch {
+        res.status(404)
+        res.send('Posts not found')
+    }
 }
 
 /**
  * show a single post
  */
-function showSingle(req, res) {
+async function showSingle(req, res) {
     // get a single post
-    const post = { name: 'Homework', slug: 'homework', description: 'Homework is challenging!' }
+    try {
+        post = await Post.findOne({ slug: req.params.slug })
 
-    res.render('pages/single', { post: post })
+        if (post !== undefined && post !== null )
+            res.render('pages/single', { post: post })
+        else {
+            res.status(404)
+            res.send('Post not found!')
+        }
+    } catch {
+        res.status(404)
+        res.send('Post not found!')
+    }
 }
 
 /**
