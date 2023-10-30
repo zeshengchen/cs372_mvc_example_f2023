@@ -23,5 +23,7 @@ router.post('/posts/create', postsController.processCreate)
 // edit posts
 router.get('/posts/:slug/edit', postsController.showEdit)
 router.post('/posts/:slug', postsController.processEdit)
+// delete posts
+router.get('/posts/:slug/delete', postsController.deletePost)
 
 router.get('/posts/:slug', postsController.showSingle)

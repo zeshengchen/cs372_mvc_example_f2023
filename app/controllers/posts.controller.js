@@ -8,7 +8,8 @@ module.exports = {
     showCreate: showCreate,
     processCreate: processCreate,
     showEdit: showEdit,
-    processEdit: processEdit
+    processEdit: processEdit,
+    deletePost: deletePost
 }
 
 /** 
@@ -168,5 +169,22 @@ async function processEdit(req, res) {
     } catch {
         res.status(500)
         res.send('Post not saved!')
+    }
+}
+
+/**
+ * Delete a post
+ */
+async function deletePost(req, res) {
+    try {
+        await Post.deleteOne({ slug: req.params.slug })
+
+        // set flash data
+        // redirect back to the posts page
+        req.flash('success', 'Post deleted')
+        res.redirect('/posts')
+    } catch {
+        res.status(500)
+        res.send('Post not deleted!')
     }
 }
