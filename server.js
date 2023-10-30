@@ -6,11 +6,12 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     session = require('express-session'),
     cookieParser = require('cookie-parser'),
-    flash = require('connect-flash'),
-    port = process.env.PORT || 8080
+    flash = require('connect-flash')    
 
 // configure our application
 require('dotenv').config()
+
+const port = process.env.PORT || 8080
 
 // set sessions and cookie parser
 app.use(cookieParser())
